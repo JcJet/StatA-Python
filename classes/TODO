@@ -1,0 +1,49 @@
+----
+Последний план на 2021: переписать статистический арбитраж из того что есть: пример QSTrader + intraday_mr; Также использовать пример R для поиска пар.
+Библиотека QSTtrader имеет хороший инструментарий бектеста: использовать не библиотеку, а создать свой модуль, скопипастить нужное,
+т.к. во-первых, нужно разбираться во всей своей системе, в ней не должно быть лишнего кода (всегда можно нарыть нужное в гугле)
+во-вторых, при использовании библиотек растет риск, что все это сломается, как в случае со S#. Примеры из книги уже не работают, существенные
+изменения в библиотеке. 
+----
+
+OLS -> CADF (in my model it was a linear regression)
+---
+Other differences:
+This one uses hedge ratio as a volume of second order, while my modes is still no clue about this.
+Cointegration test: my model used it as a filter. If pair isn't cointegrated (anymore), there's no statistical value in other calculations.
+Needs better charting and scoring/pair search mode for market research purposes, but probably when the strategy "1.0" will be ready
+
+visualisation of spread, along with the other curves
+
+GRU for pattern recogition in spread curve
+
+pair -> basket
+
+
+
+
+just a thought: StatArb assumes the linear relationship of two assets. But is there any reason to look for 
+non-linear relationship, with deep learning? what relation it can be? Scatterplot.
+
+lod system cointegration check: p-value threshold probably should be taken from adf test critical values, not hard-coded
+
+multi-thread backtesting
+
+ADF_test: p-value and other stats are different if you swap the assets. 
+It's worth checking which combination gives smaller (more negative) Dickey-Fuller statistic and use this pair for further work.
+
+From Quantstart: In addition we will consider the fact that the hedge ratio itself is not stationary and as such will utilise 
+techniques to update our hedge ratio as new information arrives. We can utilise the Bayesian approach of the Kalman Filter for this.
+
+Johansen test - what's the difference when choosing a different p (see johansen_test.py). In book, p=0. 
+"We then call the coint_johansen function by passing the data frame storing the time series data (df), 0 and 1 as its three arguments. 
+The second term in the arguments represents the order of null hypothesis, a value of 0 implies that it is a constant term, 
+there is no time trend in the polynomial. The third term specifies the number of lagged difference terms used when computing the estimator, 
+here we use a single lagged difference term."
+-------
+new "bolinger" srategy.
+int(floor(...)) - forcing integer volume to buy, probably doesn't needed for crypto.
+z-score calculation method: might be worth checking the alternatives.
+weight are hard-coded. real-time cointegration implementation is _required_. So the example is not even complete, 
+but it's worth combining it with previous work because of qstrader backtesting features.
++ implement kalman filter and regime change detection later.
